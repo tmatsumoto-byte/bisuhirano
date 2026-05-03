@@ -269,7 +269,7 @@
     <h1>お客様アンケート</h1>
   </div>
   <div class="header-right">
-    <span id="step-label">STEP 1 / 8</span>
+    <span id="step-label">STEP 1 / 9</span>
     <div class="progress-track"><div class="progress-fill" id="progress" style="width:10%"></div></div>
     <span id="step-pct">10%</span>
   </div>
@@ -279,7 +279,8 @@
   <aside class="sidebar">
     <div class="sidebar-title">STEPS</div>
     <div class="sidebar-item active" id="nav-1"><div class="dot"></div>基本情報</div>
-    <div class="sidebar-item" id="nav-2"><div class="dot"></div>① お買い物の頻度</div>
+    <div class="sidebar-item" id="nav-2"><div class="dot"></div>① 来店頻度</div>
+    <div class="sidebar-item" id="nav-2b"><div class="dot"></div>① よく行くスーパー</div>
     <div class="sidebar-item" id="nav-3"><div class="dot"></div>② 買取のご経験</div>
     <div class="sidebar-item" id="nav-4"><div class="dot"></div>お売りになったもの</div>
     <div class="sidebar-item" id="nav-5"><div class="dot"></div>③ 出張査定</div>
@@ -313,7 +314,7 @@
       </div>
 
       <div class="step" id="step-2">
-        <div class="tag">① お買い物の頻度</div>
+        <div class="tag">① 来店頻度</div>
         <div class="q-label">ビス平野にはどのくらいの頻度でお越しいただいていますか？</div>
         <div class="options-grid">
           <button class="option-btn" onclick="select(this,'freq','週に2〜3回以上')">週に2〜3回以上</button>
@@ -323,7 +324,27 @@
         </div>
         <div class="nav-row">
           <button class="btn-back" onclick="goTo(1)">← 戻る</button>
-          <button class="btn-next" id="btn2" onclick="goTo(3)" disabled>次へ　→</button>
+          <button class="btn-next" id="btn2" onclick="goTo('2b')" disabled>次へ　→</button>
+        </div>
+      </div>
+
+      <div class="step" id="step-2b">
+        <div class="tag">① よく行くスーパー</div>
+        <div class="q-label">他によく行かれるスーパーはどちらですか？</div>
+        <div class="q-sub">複数選択できます</div>
+        <div class="checkbox-grid" id="supermarket-grid">
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="万代">万代</label>
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="ライフ">ライフ</label>
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="イオン">イオン</label>
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="スーパー玉出">スーパー玉出</label>
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="スーパーサンエー">スーパーサンエー</label>
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="業務スーパー">業務スーパー</label>
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="サンディ">サンディ</label>
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="イズミヤ">イズミヤ</label>
+        </div>
+        <div class="nav-row">
+          <button class="btn-back" onclick="goTo(2)">← 戻る</button>
+          <button class="btn-next" onclick="goTo(3)">次へ　→</button>
         </div>
       </div>
 
@@ -448,17 +469,18 @@
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbzEBRMkUS039h23qLRcWmeH7skzMarqiBw90wJY2zG3ygdDDO6jtqxf1rnRkUe2yhM/exec';
 
   const answers = {};
-  const navIds = [1, 2, 3, 4, 5, '5b', 6, 7, 8, 'done'];
+  const navIds = [1, 2, '2b', 3, 4, 5, '5b', 6, 7, 8, 'done'];
   const progressMap = {
-    1:    { pct: 10,  label: 'STEP 1 / 8' },
-    2:    { pct: 25,  label: 'STEP 2 / 8' },
-    3:    { pct: 40,  label: 'STEP 3 / 8' },
-    4:    { pct: 55,  label: 'STEP 4 / 8' },
-    5:    { pct: 70,  label: 'STEP 5 / 8' },
-    '5b': { pct: 85,  label: 'STEP 6 / 8' },
-    6:    { pct: 55,  label: 'STEP 4 / 8' },
-    7:    { pct: 70,  label: 'STEP 5 / 8' },
-    8:    { pct: 90,  label: 'STEP 7 / 8' },
+    1:    { pct: 10,  label: 'STEP 1 / 9' },
+    2:    { pct: 20,  label: 'STEP 2 / 9' },
+    '2b': { pct: 30,  label: 'STEP 3 / 9' },
+    3:    { pct: 40,  label: 'STEP 4 / 9' },
+    4:    { pct: 50,  label: 'STEP 5 / 9' },
+    5:    { pct: 60,  label: 'STEP 6 / 9' },
+    '5b': { pct: 70,  label: 'STEP 7 / 9' },
+    6:    { pct: 50,  label: 'STEP 5 / 9' },
+    7:    { pct: 60,  label: 'STEP 6 / 9' },
+    8:    { pct: 90,  label: 'STEP 8 / 9' },
     done: { pct: 100, label: '完了' }
   };
 
@@ -473,7 +495,7 @@
       if (i < idx) el.classList.add('done');
       else if (i === idx) el.classList.add('active');
     });
-    const meta = progressMap[id] || { pct: 10, label: 'STEP 1 / 8' };
+    const meta = progressMap[id] || { pct: 10, label: 'STEP 1 / 9' };
     document.getElementById('progress').style.width = meta.pct + '%';
     document.getElementById('step-label').textContent = meta.label;
     document.getElementById('step-pct').textContent = meta.pct + '%';
@@ -484,11 +506,29 @@
     btn.parentElement.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     answers[key] = val;
-    const btnMap = { freq: 'btn2', image: 'btn6', visitfeel: 'btn5b' };
+    const btnMap = { image: 'btn6', visitfeel: 'btn5b' };
+    if (key === 'freq') { checkBtn2(); return; }
     if (btnMap[key]) {
       const b = document.getElementById(btnMap[key]);
       if (b) b.disabled = false;
     }
+  }
+
+  function toggleSuper(label) {
+    setTimeout(() => {
+      document.querySelectorAll('#supermarket-grid .checkbox-label').forEach(l => {
+        l.classList.toggle('checked', l.querySelector('input').checked);
+      });
+      answers['supermarket'] = Array.from(
+        document.querySelectorAll('#supermarket-grid input[type=checkbox]:checked')
+      ).map(c => c.value).join('、');
+      checkBtn2();
+    }, 0);
+  }
+
+  function checkBtn2() {
+    const btn = document.getElementById('btn2');
+    if (btn) btn.disabled = !answers['freq'];
   }
 
   function toggleCheck(label) {
@@ -518,6 +558,7 @@
       name:       answers['name']       || '',
       phone:      answers['phone']      || '',
       freq:       answers['freq']       || '',
+      supermarket: answers['supermarket'] || '',
       exp:        answers['exp']        || '',
       sold:       answers['sold']       || '',
       visit:      answers['visit']      || '',
