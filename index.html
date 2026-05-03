@@ -329,7 +329,7 @@
         <div class="q-label">他によく行かれるスーパーはどちらですか？</div>
         <div class="q-sub">複数選択できます</div>
         <div class="checkbox-grid" id="supermarket-grid">
-          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="ビス平野">ビス平野</label>
+          <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="万代">万代</label>
           <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="ライフ">ライフ</label>
           <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="イオン">イオン</label>
           <label class="checkbox-label" onclick="toggleSuper(this)"><input type="checkbox" value="スーパー玉出">スーパー玉出</label>
@@ -500,8 +500,7 @@
     if (GAS_URL !== 'YOUR_GAS_WEB_APP_URL_HERE') {
       fetch(GAS_URL, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
       }).catch(err => console.warn('送信エラー:', err));
     }
